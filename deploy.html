@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deploy a Strategy · PokéStrategy</title>
+  <link rel="icon" href="assets/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="deploy">
+  <div id="header"></div>
+  <main class="page">
+    <div class="wrap">
+      <div class="kicker">New strategy</div>
+      <h1 style="margin-top:8px">Deploy a strategy.</h1>
+      <p class="sub">Four steps, one click at the end. What it buys, what it does with the cards, what the token looks like, review.</p>
+      <form id="deploy-form" class="layout-2" style="margin-top:28px" onsubmit="return false">
+        <div>
+          <section class="panel">
+            <h2>1 · What it buys</h2>
+            <a href="market.html" style="color:var(--muted);font-size:13px">open in the live market ↗</a>
+            <div class="field" style="margin-top:12px"><label>Start from a preset</label>
+              <button class="preset" type="button" data-preset="pika">Pikachu, cheapest first</button>
+              <button class="preset" type="button" data-preset="zard">PSA 10 Charizard under $500</button>
+              <button class="preset" type="button" data-preset="vintage">Vintage 1996–2003, grade 8+</button>
+              <button class="preset" type="button" data-preset="eevee">Eeveelutions, under FMV</button>
+              <button class="preset" type="button" data-preset="gengar">Japanese Gengar</button>
+            </div>
+            <div class="field" style="margin-top:12px"><label>Pokémon</label><input name="pokemon" placeholder="Charizard"></div>
+            <div class="field" style="margin-top:12px"><label>Grader</label>
+              <div class="grade-picks">
+                <button type="button" class="pick" data-grader="PSA">PSA</button>
+                <button type="button" class="pick" data-grader="CGC">CGC</button>
+                <button type="button" class="pick" data-grader="BGS">BGS</button>
+                <button type="button" class="pick" data-grader="SGC">SGC</button>
+                <button type="button" class="pick" data-grader="TAG">TAG</button>
+              </div>
+            </div>
+            <div class="field" style="margin-top:12px"><label>Min grade</label>
+              <div class="grade-picks">
+                <button type="button" class="pick" data-min="10">10+</button>
+                <button type="button" class="pick" data-min="9.5">9.5+</button>
+                <button type="button" class="pick" data-min="9">9+</button>
+                <button type="button" class="pick" data-min="8">8+</button>
+              </div>
+            </div>
+            <div class="field" style="margin-top:12px"><label>Language</label>
+              <div class="lang-picks">
+                <button type="button" class="pick" data-lang="English">English</button>
+                <button type="button" class="pick" data-lang="Japanese">Japanese</button>
+                <button type="button" class="pick" data-lang="Korean">Korean</button>
+                <button type="button" class="pick" data-lang="Chinese">Chinese</button>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+              <div class="field"><label>Year from</label><input name="yearFrom" inputmode="numeric"></div>
+              <div class="field"><label>Year to</label><input name="yearTo" inputmode="numeric"></div>
+              <div class="field"><label>Min price $</label><input name="minPrice" inputmode="decimal"></div>
+              <div class="field"><label>Max price $</label><input name="maxPrice" inputmode="decimal"></div>
+            </div>
+            <button type="button" class="toggle" data-under style="margin-top:14px"><span class="switch"><i></i></span> Only under fair value</button>
+            <div class="field" style="margin-top:12px"><label>Must include text</label><input name="text" placeholder="1st Edition"></div>
+            <p id="rule-summary" class="muted" style="margin-top:12px;font-size:13px"></p>
+          </section>
+          <section class="panel" style="margin-top:12px">
+            <h2>2 · What it does with the cards</h2>
+            <p><b>Raffle them.</b> Each card goes to one token holder, odds proportional to balance, drawn from a published seed.</p>
+            <p class="disabled-note" style="margin-top:8px">Keep them · next update. Flip them · next update.</p>
+            <div class="field" style="margin-top:12px"><label>Draw after</label>
+              <select name="window">
+                <option>15m</option><option>30m</option><option>1h</option><option>2h</option><option>4h</option><option>6h</option><option>12h</option><option selected>24h</option>
+              </select>
+            </div>
+            <p class="muted" style="margin-top:8px;font-size:13px">Time between a purchase and its draw. The seed is sha256(recent blockhash + purchase id).</p>
+          </section>
+        </div>
+        <div>
+          <section class="panel">
+            <h2>3 · Its token</h2>
+            <div style="display:flex;gap:12px;align-items:center">
+              <div id="sprite-preview" class="sprite-box"></div>
+              <button type="button" class="btn btn-md btn-outline" id="sprite-pick">random sprite</button>
+            </div>
+            <div class="field" style="margin-top:12px"><label>Name</label><input name="name" placeholder="Custom Strategy"></div>
+            <div class="field" style="margin-top:12px"><label>Ticker</label><input name="ticker" placeholder="CARDSTR" maxlength="10"></div>
+            <div class="field" style="margin-top:12px"><label>Description (<span id="desc-count">0 / 500</span>)</label><textarea name="description" rows="3" maxlength="500"></textarea></div>
+            <div class="field" style="margin-top:12px"><label>Website</label><input name="website" placeholder="https://"></div>
+            <div class="field" style="margin-top:12px"><label>X / Twitter</label><input name="x" placeholder="@handle"></div>
+            <p class="muted" style="margin-top:12px;font-size:13px">Launch on pump.fun · Solana. Bonding curve, then PumpSwap. Creator fee of 0.30% on the curve, up to 0.95% after graduation.</p>
+          </section>
+          <section class="panel" style="margin-top:12px">
+            <h2>4 · Review & deploy</h2>
+            <div id="review"></div>
+            <button type="button" class="btn btn-lg btn-primary" id="launch" style="margin-top:16px;width:100%">Connect wallet & launch</button>
+            <p class="muted" style="margin-top:10px;font-size:12px">Rules and policy are locked at deploy and public forever. The deployer receives no fee share. This page is a local preview and does not submit a transaction.</p>
+          </section>
+        </div>
+      </form>
+    </div>
+  </main>
+  <div id="footer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

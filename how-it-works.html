@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How It Works · PokéStrategy</title>
+  <link rel="icon" href="assets/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="how">
+  <div id="header"></div>
+  <main class="page">
+    <div class="wrap prose">
+      <div class="kicker">How It Works</div>
+      <h1 style="margin-top:8px">Fees become cards.</h1>
+      <p class="sub">A strategy is three things: a rule for which cards to buy, a Solana token, and a wallet that only ever spends on cards from <a class="inline-logo" href="https://collectorcrypt.com" target="_blank" rel="noreferrer"><img src="assets/collector.png" alt="">Collector Crypt</a>. Everything below is a public API call or a transaction you can open in an explorer.</p>
+      <h2>The loop</h2>
+      <div class="loop">You deploy rules + token → token launches on pump.fun, fair launch → trades. Creator fee 0.30–0.95% of every trade. 80% to the strategy wallet in SOL or USDC, which buys a card on Collector Crypt. Every minute: scan listings, rank by the rules, buy when the wallet can pay, raffle the card to a holder. 20% of claims go to the PokéStrategy treasury.</div>
+      <ol>
+        <li><b>Deploy.</b> You describe the card (Pokémon, grader, grade, language, years, price, fair-value discount, free text), choose what happens to bought cards, and name the token. Rules are locked and public.</li>
+        <li><b>Launch.</b> You send the launch cost (about 0.035 SOL) plus any dev buy to the strategy's wallet, and that wallet creates the token on pump.fun, which makes it the on-chain creator. Dev-buy tokens are forwarded to the wallet that paid. 1B supply, no team allocation. When the curve sells out it graduates to a PumpSwap pool.</li>
+        <li><b>Fees.</b> pump.fun charges 1.25% per trade on the curve, of which 0.30% is the creator fee and goes to the strategy wallet. After graduation the creator fee continues on PumpSwap and depends on market cap: 0.30% under 420 SOL, 0.95% between 420 and 1,470 SOL, tapering to 0.05% above 98,240 SOL. The worker claims it every minute.</li>
+        <li><b>Scan.</b> Every minute the worker pulls live Collector Crypt listings, normalizes them (numeric grades, canonical languages and set names, USD prices, insured value as fair value) and ranks the ones that fit the rule, cheapest first.</li>
+        <li><b>Buy.</b> When the wallet can pay for the top card it swaps SOL to USDC on Jupiter if needed, asks Collector Crypt for the purchase transaction, signs it and broadcasts. The graded slab stays in Collector Crypt's insured vault; the strategy holds the NFT.</li>
+        <li><b>Raffle.</b> After the chosen delay the card is given to one holder, odds proportional to balance, with a published seed. Then it repeats. Anyone can send SOL or USDC to the strategy wallet to speed it up.</li>
+      </ol>
+      <h2>Where the fees go</h2>
+      <p>Fee on every trade, by stage. Yellow is the creator fee that reaches the strategy. Market cap in SOL is price × 1B tokens.</p>
+      <div class="fee"><div class="top"><span>Bonding curve · until the curve sells out</span><span>1.25% total</span></div><div class="bar"><i class="y" style="width:19%"></i><i class="g" style="width:81%"></i></div><div class="legend"><span><i style="background:#ffcb05"></i>strategy 0.24%</span><span><i style="background:#3a3a3a"></i>pump.fun 0.95%</span></div></div>
+      <div class="fee"><div class="top"><span>PumpSwap · 0 – 420 SOL</span><span>1.25% total</span></div><div class="bar"><i class="y" style="width:19%"></i><i class="g" style="width:81%"></i></div><div class="legend"><span><i style="background:#ffcb05"></i>strategy 0.24%</span><span><i style="background:#3a3a3a"></i>pump.fun 0.93%</span></div></div>
+      <div class="fee"><div class="top"><span>PumpSwap · 420 – 1,470 SOL</span><span>1.20% total</span></div><div class="bar"><i class="y" style="width:63%"></i><i class="b" style="width:16%"></i><i class="g" style="width:21%"></i></div><div class="legend"><span><i style="background:#ffcb05"></i>strategy 0.76%</span><span><i style="background:#2e90fa"></i>PokéStrategy 0.19%</span><span><i style="background:#3a3a3a"></i>LP 0.20%</span></div></div>
+      <div class="fee"><div class="top"><span>PumpSwap · 98,240+ SOL</span><span>0.30% total</span></div><div class="bar"><i class="g" style="width:67%"></i></div><div class="legend"><span><i style="background:#3a3a3a"></i>LP 0.20%</span></div></div>
+      <p style="margin-top:14px">Between 1,470 and 98,240 SOL the creator share tapers from 0.95% to 0.05% over 20 tiers. The deployer gets no fee; their upside is the token.</p>
+      <h2>What happens to the cards</h2>
+      <p>A set number of hours after each purchase (the deployer picks, default 24h), the worker snapshots every holder of the token, excluding the liquidity pool and the strategy's own wallet. It computes a seed from a recent Solana blockhash and the purchase id, walks the balance-weighted holder list to that ticket, and transfers the card's NFT to the winner. Bigger bag, better odds; every draw is recomputable from the published numbers.</p>
+      <p>The blockhash seed is public, cannot be chosen by the operator, and is fixed before the draw. It is not unpredictable to Solana validators, which is acceptable for card-sized prizes; a VRF can replace it later.</p>
+      <h3>Keep and flip</h3>
+      <p>Keep leaves every card in the vault so the token is backed by a growing collection. Flip relists each card on Collector Crypt at a markup. Both are marked as a later update on the deploy form.</p>
+      <h2>Trust</h2>
+      <p><b>Wallets.</b> Each strategy has its own wallet, derived from a master phrase held offline, encrypted at rest, and used only to sign purchases, listings, fee claims and swaps.</p>
+      <p><b>Verifiable.</b> Token, pool, wallet, every purchase and raffle link out to Solscan or Collector Crypt from the strategy page.</p>
+      <p><b>Normalization.</b> Collector Crypt fields such as grading company, a grade string like "GEM MINT 10", and insured value are mapped to one vocabulary, so "PSA 10 Japanese Charizard under fair value" means the same thing on every card.</p>
+    </div>
+  </main>
+  <div id="footer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

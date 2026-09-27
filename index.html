@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PokéStrategy — Custom vaulted RWA strategies</title>
+  <meta name="description" content="Launch a token whose trading fees buy graded, vaulted Pokémon cards on Collector Crypt and raffle them to holders.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="assets/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="home">
+  <div id="header"></div>
+  <main>
+    <section class="hero">
+      <div class="marquee-layer" id="marquee"></div>
+      <div class="hero-fade"></div>
+      <div class="wrap hero-copy">
+        <div>
+          <h1>Custom vaulted<br>RWA strategies.</h1>
+          <p class="lede">Pick the cards, launch the token. Every trade funds a wallet that buys matching graded Pokémon cards on <a class="inline-logo" href="https://collectorcrypt.com" target="_blank" rel="noreferrer"><img src="assets/collector.png" alt="">Collector Crypt</a> and raffles them to holders. Season one of Vault.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-lg btn-ghost" href="deploy.html">Build your own</a>
+          <a class="btn btn-lg btn-primary" href="browse.html">Browse Strategies</a>
+        </div>
+      </div>
+    </section>
+    <div class="ticker-wrap"><div class="ticker" id="ticker"></div></div>
+    <section class="section tight">
+      <div class="wrap stat-grid">
+        <a class="stat" href="browse.html"><span>Live strategies</span><b>79</b></a>
+        <a class="stat" href="browse.html"><span>Cards in vaults</span><b>203</b></a>
+        <a class="stat" href="browse.html"><span>Capital deployed</span><b>$9.92K</b></a>
+        <a class="stat" href="browse.html"><span>Est. value held</span><b>$4.85K</b></a>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap">
+        <div class="kicker">How a strategy runs</div>
+        <h2 class="display">Fees in.<br>Cards out.</h2>
+        <div class="steps">
+          <div class="step"><div class="num">01</div><h3>Describe</h3><p>Pokémon, years, sets, grader, grade, language, price, fair-value discount, free text. Anything you can type.</p></div>
+          <div class="step"><div class="num">02</div><h3>Launch</h3><p>A token is created on pump.fun. Zero contracts of ours, no allocation. The strategy's wallet is the creator, so creator fees accrue to it on every trade.</p></div>
+          <div class="step"><div class="num">03</div><h3>Scan</h3><p>Every minute the treasury reads live Collector Crypt listings, normalizes them, and ranks the matches by your rules.</p></div>
+          <div class="step"><div class="num">04</div><h3>Buy</h3><p>When it can pay, it buys with its own wallet. The graded card stays in Collector Crypt's insured vault; the strategy holds the NFT, keeps it or flips it at a markup.</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="row-between">
+          <div><div class="kicker">Just bought</div><h2 class="display">Fresh in the vault.</h2></div>
+          <a class="btn btn-md btn-outline" href="browse.html">All strategies</a>
+        </div>
+        <div class="card-grid home-fresh" id="fresh"></div>
+      </div>
+    </section>
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="row-between">
+          <div>
+            <div class="kicker">Live right now</div>
+            <h2 class="display">Best deals right now.</h2>
+            <p class="sub">Cards listed furthest under Collector Crypt's insured value, refreshed as this page loads.</p>
+          </div>
+          <a class="btn btn-md btn-ghost" href="market.html">Open the live market</a>
+        </div>
+        <div class="card-grid deal-grid" id="deals"></div>
+      </div>
+    </section>
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="row-between">
+          <div><div class="kicker">Strategies</div><h2 class="display">Top strategies.</h2></div>
+          <a class="btn btn-md btn-ghost" href="browse.html">All strategies →</a>
+        </div>
+        <div class="strategy-grid" id="top"></div>
+      </div>
+    </section>
+    <section class="wrap">
+      <div class="cta">
+        <h2>Build your strategy.</h2>
+        <p>Free to deploy. Public rules, public wallet, every purchase and raffle on-chain.</p>
+        <div class="cta-actions">
+          <a class="btn btn-lg btn-ghost" href="how-it-works.html">Read the mechanics</a>
+          <a class="btn btn-lg btn-primary" href="deploy.html">Build a strategy</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>
